@@ -4,8 +4,9 @@ import { formatTweet, formatDate } from '../utils/helpers';
 import { AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 import { RiReplyLine } from 'react-icons/ri';
 import {handleToggleTweet} from '../actions/tweets'
+import {Link, withRouter} from 'react-router-dom';
 
-export const Tweet = ({ id }) => {
+export const Tweet = withRouter(({ id, history }) => {
     const dispatch = useDispatch();
     const authedUser = useSelector(state => state.authedUser);
     const formattedTweet = useSelector(state => {
@@ -31,8 +32,8 @@ export const Tweet = ({ id }) => {
 
     const handleParentOnClickEvent = (e, id) => {
         e.preventDefault();
-        console.log('###### clicked parent event:', e)
-        //todo - redirect to parent
+
+        history.push(`/tweet/${id}`);
     }
 
     const {
@@ -49,7 +50,7 @@ export const Tweet = ({ id }) => {
     return formattedTweet === null
         ? (<p>This tweet does not exist</p>)
         : (
-            <div className="tweet">
+            <Link to={`/tweet/${id}`} className="tweet">
                 <img
                     src={avatar}
                     alt={`Avatar pf ${name}`}
@@ -83,8 +84,8 @@ export const Tweet = ({ id }) => {
                         <span>{likes !== 0 && likes}</span>
                     </div>
                 </div>
-            </div>
+            </Link>
         );
-}
+})
 
 export default Tweet;
